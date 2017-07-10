@@ -54,6 +54,7 @@ class PartialCache
         $this->cacheManager = $cacheManager;
 
         $this->cacheKey = $config->get('partialcache.key');
+        $this->useObjectCachekeys = $config->get('partialcache.use_object_cachekeys');
         $this->cacheIsTaggable = is_a($this->cacheManager->driver()->getStore(), TaggableStore::class);
         $this->enabled = $config->get('partialcache.enabled');
     }
@@ -75,10 +76,9 @@ class PartialCache
         if (!$this->enabled) {
             return call_user_func($this->renderView($view, $data, $mergeData));
         }
-
-        $viewKey = $this->getCacheKeyForView($view, $key);
-
         $mergeData = $mergeData ?: [];
+
+        $viewKey = $this->getCacheKeyForView($view, $key, $mergeData);
 
         $tags = [$this->cacheKey];
 
@@ -89,6 +89,7 @@ class PartialCache
 
             $tags = array_merge($tags, $tag);
         }
+
 
         if ($this->cacheIsTaggable && $minutes === null) {
             return $this->cache
@@ -116,10 +117,11 @@ class PartialCache
      *
      * @param string $view
      * @param string $key
+     * @param array $key
      *
      * @return string
      */
-    public function getCacheKeyForView($view, $key = null)
+    public function getCacheKeyForView($view, $key = null, $mergeData)
     {
         $parts = [$this->cacheKey, $view];
 
@@ -127,7 +129,20 @@ class PartialCache
             $parts[] = $key;
         }
 
+        if ($this->useObjectCachekeys) {
+            $parts = array_merge($parts, $this->getCacheKeysForMergeData($mergeData));
+        }
+
         return implode('.', $parts);
+    }
+
+    private function getCacheKeysForMergeData($mergeData)
+    {
+        return array_map(function($data) {
+            if (method_exists($data, "getCacheKey")) {
+                return $data->getCacheKey();
+            }
+        }, $mergeData);
     }
 
     /**

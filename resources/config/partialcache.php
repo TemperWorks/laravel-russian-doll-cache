@@ -11,4 +11,6 @@ return [
     // The base key that used for cache items
     'key' => 'partialcache',
 
+    // Use the cacheKeys from $mergeData objects if available?
+    'object_cachekeys' => true,
 ];
