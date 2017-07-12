@@ -8,7 +8,7 @@ trait Cacheable
      */
     public function getCacheKey()
     {
-        return implode(".", [
+        return implode(":", [
             get_class($this),
             $this->getKey(),
             $this->updated_at->timestamp
