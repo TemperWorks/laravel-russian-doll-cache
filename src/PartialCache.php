@@ -133,7 +133,7 @@ class PartialCache
             $parts = array_merge($parts, $this->getCacheKeysForMergeData($mergeData));
         }
 
-        return implode('.', $parts);
+        return implode(':', $parts);
     }
 
     private function getCacheKeysForMergeData($mergeData)
