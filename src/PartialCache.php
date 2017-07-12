@@ -78,6 +78,7 @@ class PartialCache
         }
         $mergeData = $mergeData ?: [];
 
+
         $viewKey = $this->getCacheKeyForView($view, $key, $mergeData);
 
         $tags = [$this->cacheKey];
@@ -89,7 +90,6 @@ class PartialCache
 
             $tags = array_merge($tags, $tag);
         }
-
 
         if ($this->cacheIsTaggable && $minutes === null) {
             return $this->cache
@@ -141,6 +141,9 @@ class PartialCache
         return array_map(function($data) {
             if (method_exists($data, "getCacheKey")) {
                 return $data->getCacheKey();
+            }
+            else {
+                return md5($data);
             }
         }, $mergeData);
     }
