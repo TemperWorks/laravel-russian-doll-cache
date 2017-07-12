@@ -149,23 +149,6 @@ class PartialCache
     }
 
     /**
-     * Forget a rendered view.
-     *
-     * @param string $view
-     * @param string $key
-     */
-    public function forget($view, $key = null)
-    {
-        $cacheKey = $this->getCacheKeyForView($view, $key);
-
-        if ($this->cacheIsTaggable) {
-            $this->cache->tags($this->cacheKey)->forget($cacheKey);
-        }
-
-        $this->cache->forget($cacheKey);
-    }
-
-    /**
      * Empty all views linked to a tag or the complete partial cache.
      * Note: Only supported by Taggable cache drivers.
      *
