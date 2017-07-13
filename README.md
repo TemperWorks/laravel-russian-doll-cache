@@ -1,22 +1,24 @@
-# Laravel Cache Partial Blade Directive
+# Laravel Russian Doll Cache Blade Directive
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/laravel-partialcache.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-partialcache)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/a6720e85-6e6d-4f1e-aeb5-2933c3fc8603.svg?style=flat-square)](https://insight.sensiolabs.com/projects/a6720e85-6e6d-4f1e-aeb5-2933c3fc8603)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/laravel-partialcache.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/laravel-partialcache)
-[![StyleCI](https://styleci.io/repos/37589615/shield?branch=master)](https://styleci.io/repos/37589615)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/laravel-partialcache.svg?style=flat-square)](https://packagist.org/packages/spatie/laravel-partialcache)
+## Intro
+This package provides a Blade directive to cache rendered partials in Laravel, based on the LRU auto evict poicy of memcached (by default) or redis [(optional)](https://redis.io/topics/lru-cache)
 
-This package provides a Blade directive for Laravel >=5.1 to cache rendered partials in Laravel.
+In this implementation you don't need to explicitly set cache keys. The cache key will be automatically generated based on the data you pass to the partial. 
 
-Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+If the data implements ```getCacheKey``` (by including the Cacheable trait) the key is based on the class, id and updated_at timestamp of the object. When the object changes, the key updates and the view will be regenerated on the next visit. 
+
+If the data does not implement ```getCacheKey```, an md5 hash is used as cache key.
+
+The cache store will be responsible for auto evicting the less recently used keys when the store is full.
 
 ## Install
+
+**Make sure your cache store has ```max_memory``` configured and a proper eviction policy is set.**
 
 You can install the package via Composer:
 
 ```bash
-$ composer require spatie/laravel-partialcache
+$ composer require temper-works/laravel-partialcache
 ```
 
 Start by registering the package's service provider and facade:
@@ -26,36 +28,16 @@ Start by registering the package's service provider and facade:
 
 'providers' => [
   ...
-  Spatie\PartialCache\PartialCacheServiceProvider::class,
+  TemperWorks\PartialCache\PartialCacheServiceProvider::class,
 ],
 
-'aliases' => [
-  ...
-  'PartialCache' => Spatie\PartialCache\PartialCacheFacade::class,
-],
 ```
-
-*The facade is optional, but the rest of this guide assumes you're using it.*
-
-Optionally publish the config files:
-
-```bash
-$ php artisan vendor:publish --provider="Spatie\PartialCache\PartialCacheServiceProvider"
-```
-
-## Postcardware
-
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment you are required to send us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
-
-The best postcards will get published on the open source page on our website.
 
 ## Usage
 
-The package registers a blade directive, `@cache`. The cache directive accepts the same arguments as `@include`, plus optional parameters for the amount of minutes a view should be cached for, a key unique to the rendered view, and a cache tag for the rendered view. If no minutes are provided, the view will be remembered until you manually remove it from the cache.
+The package registers a blade directive, `@cache`. The cache directive accepts the same arguments as `@include`, plus optional parameters for the amount of minutes a view should be cached for. If no minutes are provided, the view will be remembered until you manually remove it from the cache.
 
-Note that this caches the rendered html, not the rendered php like blade's default view caching.
+Only the data you pass explicitly to the partial will be available. Global variables will be ignored to make sure all the variables will be represented in the cache key.
 
 ```
 {{-- Simple example --}}
@@ -67,24 +49,11 @@ Note that this caches the rendered html, not the rendered php like blade's defau
 {{-- For a certain time --}}
 {{-- (cache will invalidate in 60 minutes in this example, set null to remember forever) --}}
 @cache('homepage.news', null, 60)
-
-{{-- With an added key (cache entry will be partialcache.user.profile.{$user->id}) --}}
-@cache('user.profile', null, null, $user->id)
-
-{{-- With an added tag (only supported by memcached and others) }}
-@cache('user.profile', null, null, $user->id, 'userprofiles')
-
-{{-- With array of tags (only supported by memcached and others) }}
-@cache('user.profile', null, null, $user->id, ['user', 'profile', 'location'])
 ```
 
 ### Clearing The PartialCache
 
-You can forget a partialcache entry with `PartialCache::forget($view, $key)`.
-
-```php
-PartialCache::forget('user.profile', $user->id);
-```
+Since we rely on the cache store to automatically flush old data, it's not needed to manually remove keys. 
 
 If you want to flush all entries, you'll need to either call `PartialCache::flush()` (note: this is only supported by drivers that support tags), or clear your entire cache.
 
@@ -96,13 +65,6 @@ Configuration isn't necessary, but there are two options specified in the config
 - `partialcache.directive`: The name of the blade directive to register. Defaults to `cache`.
 - `partialcache.key`: The base key that used for cache entries. Defaults to `partialcache`.
 
-## Change log
-
-Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
 ## Security
 
@@ -110,11 +72,12 @@ If you discover any security related issues, please email freek@spatie.be instea
 
 ## Credits
 
+This package is forked from on [spatie-partialcache](https://github.com/spatie/laravel-partialcache) by the awesome webdesign agency [Spatie](https://spatie.be/opensource)
+
+- [Jeroen Jochems](http://temper.works)
 - [Sebastian De Deyne](https://github.com/sebastiandedeyne)
 - [All Contributors](../../contributors)
 
-## About Spatie
-Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
 
 ## License
 

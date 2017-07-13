@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\PartialCache;
+namespace TemperWorks\RussianDollCache;
 
 use Illuminate\Cache\TaggableStore;
 use Illuminate\Contracts\Cache\Factory as CacheManager;
@@ -9,7 +9,7 @@ use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\View\Factory as View;
 use Spatie\PartialCache\Exceptions\MethodNotSupportedException;
 
-class PartialCache
+class RussianDollCache
 {
     /**
      * @var \Illuminate\Contracts\View\Factory
@@ -54,7 +54,6 @@ class PartialCache
         $this->cacheManager = $cacheManager;
 
         $this->cacheKey = $config->get('partialcache.key');
-        $this->useObjectCachekeys = $config->get('partialcache.use_object_cachekeys');
         $this->cacheIsTaggable = is_a($this->cacheManager->driver()->getStore(), TaggableStore::class);
         $this->enabled = $config->get('partialcache.enabled');
     }
@@ -66,72 +65,54 @@ class PartialCache
      * @param string       $view
      * @param array        $mergeData
      * @param int          $minutes
-     * @param string       $key
-     * @param string|array $tag
      *
      * @return string
      */
-    public function cache($data, $view, $mergeData = null, $minutes = null, $key = null, $tag = null)
+    public function cache($view, array $mergeData = null, $minutes = null)
     {
         if (!$this->enabled) {
             return call_user_func($this->renderView($view, $data, $mergeData));
         }
-        $mergeData = $mergeData ?: [];
 
-
-        $viewKey = $this->getCacheKeyForView($view, $key, $mergeData);
+        $viewKey = $this->getCacheKeyForView($view, $mergeData);
 
         $tags = [$this->cacheKey];
-
-        if ($tag) {
-            if (!is_array($tag)) {
-                $tag = [$tag];
-            }
-
-            $tags = array_merge($tags, $tag);
-        }
 
         if ($this->cacheIsTaggable && $minutes === null) {
             return $this->cache
                 ->tags($tags)
-                ->rememberForever($viewKey, $this->renderView($view, $data, $mergeData));
+                ->rememberForever($viewKey, $this->renderView($view, [], $mergeData));
         }
 
         if ($this->cacheIsTaggable) {
             return $this->cache
                 ->tags($tags)
-                ->remember($viewKey, $minutes, $this->renderView($view, $data, $mergeData));
+                ->remember($viewKey, $minutes, $this->renderView($view, [], $mergeData));
         }
 
         if ($minutes === null) {
             return $this->cache
-                ->rememberForever($viewKey, $this->renderView($view, $data, $mergeData));
+                ->rememberForever($viewKey, $this->renderView($view, [], $mergeData));
         }
 
         return $this->cache
-            ->remember($viewKey, $minutes, $this->renderView($view, $data, $mergeData));
+            ->remember($viewKey, $minutes, $this->renderView($view, [], $mergeData));
     }
 
     /**
      * Create a key name for the cached view.
      *
      * @param string $view
-     * @param string $key
-     * @param array $key
+     * @param array $mergeData
      *
      * @return string
      */
-    public function getCacheKeyForView($view, $key = null, $mergeData)
+    public function getCacheKeyForView($view, $mergeData)
     {
-        $parts = [$this->cacheKey, $view];
-
-        if ($key !== null) {
-            $parts[] = $key;
-        }
-
-        if ($this->useObjectCachekeys) {
-            $parts = array_merge($parts, $this->getCacheKeysForMergeData($mergeData));
-        }
+        $parts = array_merge(
+                [$this->cacheKey, $view],
+                $this->getCacheKeysForMergeData($mergeData)
+        );
 
         return implode('.', $parts);
     }
@@ -143,7 +124,7 @@ class PartialCache
                 return $data->getCacheKey();
             }
             else {
-                return md5($data);
+                return md5(json_encode($data));
             }
         }, $mergeData);
     }

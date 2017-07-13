@@ -1,15 +1,21 @@
 {
-    "name": "spatie/laravel-partialcache",
-    "description": "Blade directive to cache rendered partials in laravel",
+    "name": "temperworks/laravel-russian-doll-cache",
+    "description": "Laravel Russian Doll Cache Blade Directive",
     "keywords": [
         "spatie",
         "cache",
         "partial",
         "view"
     ],
-    "homepage": "https://github.com/spatie/laravel-partialcache",
+    "homepage": "https://github.com/temperworks/laravel-russian-doll-cache",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Jeroen Jochems",
+            "email": "jeroen@temper.works",
+            "homepage": "https://temper.works",
+            "role": "Developer"
+        },
         {
             "name": "Sebastian De Deyne",
             "email": "sebastian@spatie.be",
@@ -32,11 +38,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Spatie\\PartialCache\\PartialCacheServiceProvider"
-            ],
-            "aliases": {
-                "PartialCache": "Spatie\\PartialCache\\PartialCacheFacade"
-            }
+                "TemperWorks\\RussianDollCache\\PartialCacheServiceProvider"
+            ]
         }
     }
 }

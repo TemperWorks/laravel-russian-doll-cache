@@ -1,5 +1,5 @@
 <?php
-namespace Spatie\PartialCache;
+namespace TemperWorks\RussianDollCache;
 
 trait Cacheable
 {

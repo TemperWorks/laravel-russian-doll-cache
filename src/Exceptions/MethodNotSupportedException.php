@@ -1,6 +1,6 @@
 <?php
 
-namespace Spatie\PartialCache\Exceptions;
+namespace TemperWorks\RussianDollCache\Exceptions;
 
 class MethodNotSupportedException extends \Exception
 {
