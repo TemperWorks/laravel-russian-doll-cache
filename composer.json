@@ -32,13 +32,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Spatie\\PartialCache\\": "src"
+            "TemperWorks\\RussianDollCache\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "TemperWorks\\RussianDollCache\\PartialCacheServiceProvider"
+                "TemperWorks\\RussianDollCache\\RussianDollCacheServiceProvider"
             ]
         }
     }

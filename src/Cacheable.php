@@ -1,5 +1,5 @@
 <?php
-namespace Temperworks\RussianDollCache;
+namespace TemperWorks\RussianDollCache;
 
 trait Cacheable
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Temperworks\RussianDollCache;
+namespace TemperWorks\RussianDollCache;
 
 use Blade;
 use Illuminate\Support\ServiceProvider;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Temperworks\RussianDollCache;
+namespace TemperWorks\RussianDollCache;
 
 use Illuminate\Cache\TaggableStore;
 use Illuminate\Contracts\Cache\Factory as CacheManager;
