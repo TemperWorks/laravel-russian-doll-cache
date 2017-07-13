@@ -114,7 +114,7 @@ class RussianDollCache
                 $this->getCacheKeysForMergeData($mergeData)
         );
 
-        return implode('.', $parts);
+        return implode(':', $parts);
     }
 
     private function getCacheKeysForMergeData($mergeData)
@@ -127,23 +127,6 @@ class RussianDollCache
                 return md5(json_encode($data));
             }
         }, $mergeData);
-    }
-
-    /**
-     * Forget a rendered view.
-     *
-     * @param string $view
-     * @param string $key
-     */
-    public function forget($view, $key = null)
-    {
-        $cacheKey = $this->getCacheKeyForView($view, $key);
-
-        if ($this->cacheIsTaggable) {
-            $this->cache->tags($this->cacheKey)->forget($cacheKey);
-        }
-
-        $this->cache->forget($cacheKey);
     }
 
     /**
