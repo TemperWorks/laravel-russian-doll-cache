@@ -18,7 +18,7 @@ The cache store will be responsible for auto evicting the less recently used key
 You can install the package via Composer:
 
 ```bash
-$ composer require temper-works/laravel-partialcache
+$ composer require temperworks/laravel-russian-doll-cache
 ```
 
 Start by registering the package's service provider and facade:
@@ -61,14 +61,9 @@ If you want to flush all entries, you'll need to either call `PartialCache::flus
 
 Configuration isn't necessary, but there are two options specified in the config file:
 
-- `partialcache.enabled`: Fully enable or disable the cache. Defaults to `true`.
-- `partialcache.directive`: The name of the blade directive to register. Defaults to `cache`.
-- `partialcache.key`: The base key that used for cache entries. Defaults to `partialcache`.
-
-
-## Security
-
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
+- `russian-doll-cache.enabled`: Fully enable or disable the cache. Defaults to `true`.
+- `russian-doll-cache.directive`: The name of the blade directive to register. Defaults to `cache`.
+- `russian-doll-cache.key`: The base key that used for cache entries. Defaults to `partialcache`.
 
 ## Credits
 

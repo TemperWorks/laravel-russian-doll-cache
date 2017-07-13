@@ -13,15 +13,15 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Sebastian De Deyne",
-            "email": "sebastian@spatie.be",
-            "homepage": "https://spatie.be",
-            "role": "Developer"
-        },
-        {
             "name": "Jeroen Jochems",
             "email": "jeroen@temper.works",
             "homepage": "https://temper.works",
+            "role": "Developer"
+        },
+        {
+            "name": "Sebastian De Deyne",
+            "email": "sebastian@spatie.be",
+            "homepage": "https://spatie.be",
             "role": "Developer"
         }
     ],
