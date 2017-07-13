@@ -1,6 +1,6 @@
 <?php
 
-namespace TemperWorks\RussianDollCache;
+namespace Temperworks\RussianDollCache;
 
 use Illuminate\Cache\TaggableStore;
 use Illuminate\Contracts\Cache\Factory as CacheManager;
@@ -53,9 +53,9 @@ class RussianDollCache
         $this->cache = $cache;
         $this->cacheManager = $cacheManager;
 
-        $this->cacheKey = $config->get('partialcache.key');
+        $this->cacheKey = $config->get('russian-doll-cache.key');
         $this->cacheIsTaggable = is_a($this->cacheManager->driver()->getStore(), TaggableStore::class);
-        $this->enabled = $config->get('partialcache.enabled');
+        $this->enabled = $config->get('russian-doll-cache.enabled');
     }
 
     /**

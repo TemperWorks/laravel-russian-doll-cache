@@ -1,6 +1,6 @@
 <?php
 
-namespace TemperWorks\RussianDollCache\Exceptions;
+namespace Temperworks\RussianDollCache\Exceptions;
 
 class MethodNotSupportedException extends \Exception
 {

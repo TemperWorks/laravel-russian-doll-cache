@@ -1,6 +1,6 @@
 <?php
 
-namespace TemperWorks\RussianDollCache;
+namespace Temperworks\RussianDollCache;
 
 use Blade;
 use Illuminate\Support\ServiceProvider;
@@ -23,7 +23,7 @@ class RussianDollCacheServiceProvider extends ServiceProvider
                 $expression = substr($expression, 1, -1);
             }
 
-            return "<?php echo app()->make('partialcache')
+            return "<?php echo app()->make('russian-doll-cache')
                 ->cache({$expression}); ?>";
         });
     }
@@ -35,6 +35,6 @@ class RussianDollCacheServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../resources/config/russian-doll-cache.php', 'russian-doll-cache');
 
-        $this->app->alias(PartialCache::class, 'russian-doll-cache');
+        $this->app->alias(RussianDollCache::class, 'russian-doll-cache');
     }
 }

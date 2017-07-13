@@ -28,7 +28,7 @@ Start by registering the package's service provider and facade:
 
 'providers' => [
   ...
-  TemperWorks\PartialCache\PartialCacheServiceProvider::class,
+  TemperWorks\RussianDollCache\RussianDollCacheServiceProvider::class,
 ],
 
 ```
