@@ -2,10 +2,12 @@
     "name": "temperworks/laravel-russian-doll-cache",
     "description": "Laravel Russian Doll Cache Blade Directive",
     "keywords": [
-        "spatie",
+        "temper",
+        "blade",
         "cache",
-        "partial",
-        "view"
+        "russian",
+        "laravel",
+        "doll"
     ],
     "homepage": "https://github.com/temperworks/laravel-russian-doll-cache",
     "license": "MIT",
@@ -32,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "TemperWorks\\RussianDollCache\\": "src"
+            "TemperWorks\\RussianDollCache\\": "src/"
         }
     },
     "extra": {

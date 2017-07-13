@@ -7,7 +7,7 @@ use Illuminate\Contracts\Cache\Factory as CacheManager;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Contracts\Config\Repository as Config;
 use Illuminate\Contracts\View\Factory as View;
-use Spatie\PartialCache\Exceptions\MethodNotSupportedException;
+use TemperWorks\RussianDollCache\Exceptions\MethodNotSupportedException;
 
 class RussianDollCache
 {
