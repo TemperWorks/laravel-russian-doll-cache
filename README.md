@@ -1,7 +1,7 @@
 # Laravel Russian Doll Cache Blade Directive
 
 ## Intro
-This package provides a Blade directive to cache rendered partials in Laravel, based on the LRU auto evict poicy of memcached (by default) or redis [(optional)](https://redis.io/topics/lru-cache)
+This package provides a Blade directive to cache rendered partials in Laravel, based on the LRU auto evict policy of memcached (by default) or redis [(optional)](https://redis.io/topics/lru-cache)
 
 In this implementation you don't need to explicitly set cache keys. The cache key will be automatically generated based on the data you pass to the partial. 
 
@@ -35,9 +35,9 @@ Start by registering the package's service provider and facade:
 
 ## Usage
 
-The package registers a blade directive, `@cache`. The cache directive accepts the same arguments as `@include`, plus optional parameters for the amount of minutes a view should be cached for. If no minutes are provided, the view will be remembered until you manually remove it from the cache.
+The package registers a blade directive, `@cache`. The cache directive accepts the same arguments as `@include`, plus optional parameters for the amount of minutes a view should be cached for. If no minutes are provided, the view will be remembered untill it gets deleted by the cache store.
 
-Only the data you pass explicitly to the partial will be available. Global variables will be ignored to make sure all the variables will be represented in the cache key.
+Only the data you pass explicitly to the partial will be available within. Unlike the behavior of `@include`, global variables will be ignored to make sure all the variables will be represented in the cache key.
 
 ```
 {{-- Simple example --}}
@@ -59,7 +59,7 @@ If you want to flush all entries, you'll need to either call `PartialCache::flus
 
 ### Configuration
 
-Configuration isn't necessary, but there are two options specified in the config file:
+Configuration isn't necessary, but there are some options specified in the config file:
 
 - `russian-doll-cache.enabled`: Fully enable or disable the cache. Defaults to `true`.
 - `russian-doll-cache.directive`: The name of the blade directive to register. Defaults to `cache`.
@@ -67,7 +67,7 @@ Configuration isn't necessary, but there are two options specified in the config
 
 ## Credits
 
-This package is forked from on [spatie-partialcache](https://github.com/spatie/laravel-partialcache) by the awesome webdesign agency [Spatie](https://spatie.be/opensource)
+This package is forked from on [spatie-partialcache](https://github.com/spatie/laravel-partialcache) by the awesome webdesign agency [Spatie](https://spatie.be/opensource).
 
 - [Jeroen Jochems](http://temper.works)
 - [Sebastian De Deyne](https://github.com/sebastiandedeyne)
